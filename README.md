@@ -39,9 +39,6 @@ app/adtech-agent        composition root: builds the adtech policy, picks a back
    └── Sentinel.Types     newtypes + smart ctors, Decision/Violation, Stage (DataKinds)
 ```
 
-The legacy Servant demo has been moved to `legacy/introv-haskell/` and is **not**
-built by this package (see `legacy/introv-haskell/README.md`).
-
 ---
 
 ## Toolchain (required)

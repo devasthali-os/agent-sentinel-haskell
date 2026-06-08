@@ -12,9 +12,6 @@ author:              prayagupa
 maintainer:          prayag.upd@gmail.com
 category:            Security
 
-# The legacy Servant demo lives under legacy/ and is deliberately excluded; this
-# package only owns src/, app/, and test/.
-
 ghc-options:
   - -Wall
   - -Werror=incomplete-patterns
