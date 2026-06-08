@@ -1,0 +1,7 @@
+# Resolver pins GHC 9.6.6 with bindists for both x86_64-darwin and aarch64-darwin.
+# The legacy Servant package under legacy/ is intentionally NOT listed here, so it
+# is never built by this package.
+resolver: lts-22.43
+
+packages:
+  - .

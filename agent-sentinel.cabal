@@ -1,0 +1,99 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.39.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           agent-sentinel
+version:        0.1.0.0
+synopsis:       Type-safe agent policy sentinel for LLM traffic
+description:    A thin, strongly-typed library that sits between an AI agent and an LLM and enforces composable policies on every request and response. Phantom types and unexported constructors make whole classes of policy bugs unrepresentable - if it compiles, the sentinel ran.
+category:       Security
+homepage:       https://github.com/prayagupd/agent-governance-haskell
+author:         prayagupa
+maintainer:     prayag.upd@gmail.com
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+
+library
+  exposed-modules:
+      Sentinel.Adtech
+      Sentinel.Enforce
+      Sentinel.Model
+      Sentinel.Model.Mock
+      Sentinel.Ollama
+      Sentinel.Policy
+      Sentinel.Redact
+      Sentinel.Types
+  other-modules:
+      Paths_agent_sentinel
+  hs-source-dirs:
+      src
+  default-extensions:
+      OverloadedStrings
+      DataKinds
+      KindSignatures
+      ScopedTypeVariables
+      LambdaCase
+  ghc-options: -Wall -Werror=incomplete-patterns
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , http-client
+    , text
+  default-language: Haskell2010
+
+executable adtech-agent
+  main-is: Main.hs
+  other-modules:
+      Paths_agent_sentinel
+  hs-source-dirs:
+      app
+  default-extensions:
+      OverloadedStrings
+      DataKinds
+      KindSignatures
+      ScopedTypeVariables
+      LambdaCase
+  ghc-options: -Wall -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      agent-sentinel
+    , base >=4.7 && <5
+    , text
+  default-language: Haskell2010
+
+test-suite agent-sentinel-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Sentinel.AdtechSpec
+      Sentinel.EnforceSpec
+      Sentinel.Fixtures
+      Sentinel.NoBypassSpec
+      Sentinel.OllamaIntegrationSpec
+      Sentinel.PolicySpec
+      Sentinel.PropertySpec
+      Sentinel.RedactSpec
+      Paths_agent_sentinel
+  hs-source-dirs:
+      test
+  default-extensions:
+      OverloadedStrings
+      DataKinds
+      KindSignatures
+      ScopedTypeVariables
+      LambdaCase
+  ghc-options: -Wall -Werror=incomplete-patterns
+  build-tool-depends:
+      hspec-discover:hspec-discover
+  build-depends:
+      QuickCheck
+    , agent-sentinel
+    , base >=4.7 && <5
+    , containers
+    , hspec
+    , text
+  default-language: Haskell2010

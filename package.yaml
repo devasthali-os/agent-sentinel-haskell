@@ -1,0 +1,64 @@
+name:                agent-sentinel
+version:             0.1.0.0
+synopsis:            Type-safe agent policy sentinel for LLM traffic
+description:         A thin, strongly-typed library that sits between an AI agent
+                     and an LLM and enforces composable policies on every request
+                     and response. Phantom types and unexported constructors make
+                     whole classes of policy bugs unrepresentable - if it compiles,
+                     the sentinel ran.
+homepage:            https://github.com/prayagupd/agent-governance-haskell
+license:             BSD3
+author:              prayagupa
+maintainer:          prayag.upd@gmail.com
+category:            Security
+
+# The legacy Servant demo lives under legacy/ and is deliberately excluded; this
+# package only owns src/, app/, and test/.
+
+ghc-options:
+  - -Wall
+  - -Werror=incomplete-patterns
+
+default-extensions:
+  - OverloadedStrings
+  - DataKinds
+  - KindSignatures
+  - ScopedTypeVariables
+  - LambdaCase
+
+dependencies:
+  - base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  dependencies:
+    - text
+    - bytestring
+    - containers
+    - aeson
+    - http-client
+
+executables:
+  adtech-agent:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - agent-sentinel
+      - text
+
+tests:
+  agent-sentinel-test:
+    main:                Spec.hs
+    source-dirs:         test
+    build-tools:
+      - hspec-discover
+    dependencies:
+      - agent-sentinel
+      - text
+      - containers
+      - hspec
+      - QuickCheck

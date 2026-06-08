@@ -1,0 +1,42 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Stack
+.stack-work/
+
+# Cabal
+dist/
+dist-newstyle/
+cabal-dev
+.cabal-sandbox/
+cabal.sandbox.config
+cabal.project.local
+cabal.project.local~
+.ghc.environment.*
+
+# GHC / Haskell build artifacts
+*.hi
+*.hie
+*.o
+*.dyn_hi
+*.dyn_o
+*.chi
+*.chs.h
+*.prof
+*.aux
+*.hp
+*.tix
+.hpc/
+
+# Editor / IDE (local only)
+*~
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Env files (API keys, local overrides)
+.env
+.env.*

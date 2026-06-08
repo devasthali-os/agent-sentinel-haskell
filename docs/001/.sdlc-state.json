@@ -1,0 +1,45 @@
+{
+  "featureId": "001",
+  "feature": "agent-policy-governance-engine",
+  "updatedAt": "2026-06-08T15:35:00Z",
+  "stages": {
+    "prd":            { "status": "done", "artifact": "docs/001/001-prd.md" },
+    "spec":           { "status": "done", "artifact": "docs/001/001-spec.md" },
+    "spec-review":    { "status": "done", "verdict": "approved", "note": "self-review embedded in 001-spec.md; 3 High findings resolved inline, 0 open" },
+    "execution-plan": { "status": "done", "artifact": "docs/001/001-execution-plan.md" }
+  },
+  "stories": {
+    "STORY-01": { "impl": "done", "epic": "A", "title": "Pin toolchain & scaffold stack/hpack package" },
+    "STORY-02": { "impl": "done", "epic": "A", "title": "Isolate legacy Servant package; verify independent build" },
+    "STORY-03": { "impl": "done", "epic": "A", "title": "CI: offline build+test, cross-arch notes" },
+    "STORY-04": { "impl": "done", "epic": "B", "title": "Governance.Types: domain newtypes, smart ctors, Decision/Violation/Stage" },
+    "STORY-05": { "impl": "done", "epic": "B", "title": "Governance.Enforce: Governed phantom type + enforce request/response" },
+    "STORY-06": { "impl": "done", "epic": "B", "title": "Governance.Model: typed ModelBackend port" },
+    "STORY-07": { "impl": "done", "epic": "B", "title": "should-not-compile negative cases for no-bypass" },
+    "STORY-08": { "impl": "done", "epic": "C", "title": "Governance.Policy: Policy value + combinators" },
+    "STORY-09": { "impl": "done", "epic": "C", "title": "Composition semantics + Monoid instance" },
+    "STORY-10": { "impl": "done", "epic": "C", "title": "Governance.Redact: span redaction + detectors" },
+    "STORY-11": { "impl": "done", "epic": "D", "title": "Adtech policy bundle (request + response)" },
+    "STORY-12": { "impl": "done", "epic": "D", "title": "Mock ModelBackend (deterministic)" },
+    "STORY-13": { "impl": "done", "epic": "D", "title": "Governance.Ollama backend (http-client + aeson)" },
+    "STORY-14": { "impl": "done", "epic": "D", "title": "adtech-agent example exe (--mock / --ollama)" },
+    "STORY-15": { "impl": "done", "epic": "E", "title": "hspec unit specs: allow/deny/redact/transform/no-bypass + adtech" },
+    "STORY-16": { "impl": "done", "epic": "E", "title": "QuickCheck property laws" },
+    "STORY-17": { "impl": "done", "epic": "E", "title": "Segregated Ollama integration spec (off by default)" }
+  },
+  "review": {
+    "status": "done",
+    "verdict": "approved",
+    "note": "Reviewer flagged 1 Critical (response-side no-bypass not type-enforced) + 1 Major (tautological no-bypass test) + minor nits; all fixed and re-verified by orchestrator. Response bypass now provably fails to type-check."
+  },
+  "build": {
+    "status": "verified",
+    "host": "macOS Intel x86_64 (GHC 9.6.6)",
+    "stackBuild": "clean (-Wall -Werror=incomplete-patterns, force-recomp, 0 warnings)",
+    "offlineTest": "44 examples, 0 failures, 2 pending (segregated integration)",
+    "ollamaIntegration": "44 examples, 0 failures with OLLAMA_INTEGRATION=1 against llama3.2:1b",
+    "example": "adtech-agent --mock and --ollama run end-to-end; all 4 scenarios correct",
+    "noBypassProof": "GHCi: `mrespText <$> runModel mockBackend g` -> Couldn't match 'Governed Raw ModelResponse' (type error)"
+  },
+  "toolchain": { "status": "done", "stack": "3.9.3 at ~/.local/bin/stack", "resolver": "lts-22.43", "ghc": "9.6.6 (installed, verified)", "note": "x86_64 + aarch64 darwin bindists; hpack package.yaml" }
+}

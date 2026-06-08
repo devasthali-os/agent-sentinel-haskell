@@ -1,0 +1,48 @@
+# STORY-03 — Offline, cross-arch CI for the agent-sentinel package.
+#
+# Runs `stack build` + `stack test` on the pinned resolver (lts-22.43 / GHC
+# 9.6.6). The suite is fully offline: no Ollama and no network access to a model
+# are required. The segregated Ollama integration spec (STORY-17) is excluded by
+# default — it runs only when OLLAMA_INTEGRATION=1 is set, which CI never sets.
+name: ci
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build-and-test:
+    name: build & offline test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # macos-13 is Intel (x86_64); macos-14 is Apple Silicon (aarch64).
+        # The pinned resolver selects the correct GHC 9.6.6 bindist per arch.
+        # Per finding R9, if an aarch64 runner is unavailable in your org, the
+        # x86_64 job still guarantees the resolver/bindist selection; verify
+        # aarch64 manually with the same commands.
+        os: [ macos-13, macos-14 ]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Haskell (modern stack)
+        uses: haskell-actions/setup@v2
+        with:
+          enable-stack: true
+          stack-version: latest
+
+      - name: Cache stack
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.stack
+            .stack-work
+          key: ${{ runner.os }}-${{ runner.arch }}-stack-${{ hashFiles('stack.yaml', 'package.yaml') }}
+
+      - name: Build (-Wall -Werror=incomplete-patterns)
+        run: stack build
+
+      - name: Test (offline deterministic suite; no Ollama/network)
+        run: stack test
